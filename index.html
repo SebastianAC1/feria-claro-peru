@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Postulación Feria Laboral - Claro Perú</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Arial, sans-serif; }
+    body { background: #f4f6f9; color: #1f2937; padding: 16px; display: flex; justify-content: center; }
+    .card { background: #ffffff; width: 100%; max-width: 520px; border-radius: 14px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); overflow: hidden; }
+    .header { background: linear-gradient(135deg, #111827, #da291c); color: #fff; padding: 24px 20px; text-align: center; }
+    .header h1 { font-size: 1.35rem; margin-bottom: 4px; letter-spacing: 0.5px; }
+    .header p { font-size: 0.9rem; opacity: 0.92; }
+    form { padding: 22px 20px; display: flex; flex-direction: column; gap: 15px; }
+    .section-title { font-size: 0.8rem; font-weight: 700; color: #da291c; text-transform: uppercase; letter-spacing: 0.8px; border-bottom: 1px solid #e5e7eb; padding-bottom: 4px; margin-top: 4px; }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .row { display: grid; grid-template-columns: 1fr 1.2fr; gap: 10px; }
+    label { font-size: 0.88rem; font-weight: 600; color: #374151; }
+    label span { color: #da291c; }
+    input, select, textarea {
+      width: 100%; padding: 11px 12px; border: 1.5px solid #d1d5db; border-radius: 8px;
+      font-size: 0.95rem; background: #fff; transition: border-color 0.2s;
+    }
+    input[type="text"], textarea { text-transform: uppercase; }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: #da291c; }
+    textarea { resize: vertical; min-height: 75px; }
+    .btn {
+      background: #da291c; color: #fff; border: none; padding: 14px; border-radius: 10px;
+      font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 6px; transition: background 0.2s;
+    }
+    .btn:hover { background: #b81f14; }
+    .btn:disabled { background: #9ca3af; cursor: not-allowed; }
+    .msg { display: none; padding: 14px; border-radius: 8px; text-align: center; font-size: 0.92rem; font-weight: 600; }
+    .msg.success { display: block; background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+    .msg.error { display: block; background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+    @media (max-width: 440px) { .row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <h1>FERIA LABORAL - CLARO PERÚ</h1>
+      <p>Partner Service S.A.C. | Registro de Postulantes</p>
+    </div>
+
+    <form id="formPeru">
+      <div class="section-title">Datos Personales</div>
+
+      <div class="field">
+        <label for="nombre">Nombres y Apellidos Completos <span>*</span></label>
+        <input type="text" id="nombre" required placeholder="EJ: MARÍA FERNANDA LÓPEZ RUIZ">
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="tipoDoc">Tipo de Documento <span>*</span></label>
+          <select id="tipoDoc" required>
+            <option value="DNI">DNI</option>
+            <option value="CARNET DE EXTRANJERÍA">CARNET DE EXTRANJERÍA</option>
+            <option value="PTP / CPP">PTP / CPP</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="numDoc">Número de Documento <span>*</span></label>
+          <input type="text" id="numDoc" inputmode="numeric" required maxlength="8" placeholder="8 DÍGITOS">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="contacto">Número de Celular / WhatsApp <span>*</span></label>
+        <input type="text" id="contacto" inputmode="numeric" required maxlength="9" placeholder="EJ: 987654321">
+      </div>
+
+      <div class="section-title">Campaña y Horario</div>
+
+      <div class="field">
+        <label for="campana">Campaña a Postular <span>*</span></label>
+        <input type="text" id="campana" required placeholder="ESCRIBE LA CAMPAÑA (EJ: VENTAS / ATC)">
+      </div>
+
+      <div class="field">
+        <label for="horario">Horario de Preferencia <span>*</span></label>
+        <input type="text" id="horario" required placeholder="EJ: FULL TIME MAÑANA / 9 A.M. A 6 P.M.">
+      </div>
+
+      <div class="section-title">Ubicación</div>
+
+      <div class="field">
+        <label for="distrito">Distrito <span>*</span></label>
+        <input type="text" id="distrito" required placeholder="EJ: SANTA ANITA / ATE / EL AGUSTINO">
+      </div>
+
+      <div class="field">
+        <label for="direccion">Dirección Exacta <span>*</span></label>
+        <input type="text" id="direccion" required placeholder="EJ: JR. LAS FLORES 456 - REF. PARADERO">
+      </div>
+
+      <div class="field">
+        <label for="observaciones">Observaciones (Opcional)</label>
+        <textarea id="observaciones" placeholder="ALGÚN COMENTARIO ADICIONAL O DISPONIBILIDAD..."></textarea>
+      </div>
+
+      <button type="submit" class="btn" id="btnEnviar">ENVIAR POSTULACIÓN</button>
+      <div id="mensaje" class="msg"></div>
+    </form>
+  </div>
+
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwANLwFbV_VGsbL9Qb12Ol_SslVsJlLYWYEsmDR0U0GCfjMeRXMIycPkSh5ZhUp2OYCMA/exec";
+
+    const tipoDoc = document.getElementById("tipoDoc");
+    const numDoc = document.getElementById("numDoc");
+    const contacto = document.getElementById("contacto");
+
+    numDoc.addEventListener("input", () => { numDoc.value = numDoc.value.replace(/[^0-9]/g, ""); });
+    contacto.addEventListener("input", () => { contacto.value = contacto.value.replace(/[^0-9]/g, ""); });
+
+    tipoDoc.addEventListener("change", () => {
+      numDoc.value = "";
+      if (tipoDoc.value === "DNI") {
+        numDoc.maxLength = 8;
+        numDoc.placeholder = "8 DÍGITOS";
+      } else {
+        numDoc.maxLength = 12;
+        numDoc.placeholder = "INCLUYE CEROS INICIALES SI TIENE";
+      }
+    });
+
+    document.getElementById("formPeru").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const msg = document.getElementById("mensaje");
+      const btn = document.getElementById("btnEnviar");
+
+      if (tipoDoc.value === "DNI" && numDoc.value.length !== 8) {
+        msg.className = "msg error";
+        msg.textContent = "El DNI debe tener exactamente 8 dígitos.";
+        return;
+      }
+      if (contacto.value.length !== 9) {
+        msg.className = "msg error";
+        msg.textContent = "El número de celular debe tener 9 dígitos.";
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = "ENVIANDO...";
+      msg.className = "msg";
+
+      const payload = {
+        nombre: document.getElementById("nombre").value.trim().toUpperCase(),
+        tipoDoc: tipoDoc.value.trim().toUpperCase(),
+        numDoc: numDoc.value.trim(),
+        contacto: contacto.value.trim(),
+        campana: document.getElementById("campana").value.trim().toUpperCase(),
+        horario: document.getElementById("horario").value.trim().toUpperCase(),
+        distrito: document.getElementById("distrito").value.trim().toUpperCase(),
+        direccion: document.getElementById("direccion").value.trim().toUpperCase(),
+        observaciones: document.getElementById("observaciones").value.trim().toUpperCase()
+      };
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        msg.className = "msg success";
+        msg.textContent = "¡REGISTRO EXITOSO! Gracias por postular a Claro Perú.";
+        e.target.reset();
+      } catch (err) {
+        msg.className = "msg error";
+        msg.textContent = "Hubo un error de conexión. Inténtalo nuevamente.";
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "ENVIAR POSTULACIÓN";
+      }
+    });
+  </script>
+</body>
+</html>
